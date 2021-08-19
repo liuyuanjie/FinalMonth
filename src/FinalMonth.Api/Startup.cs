@@ -1,4 +1,7 @@
+using FinalMonth.Api.Common;
+using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -45,15 +48,9 @@ namespace FinalMonth.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinalMonth.Api", Version = "v1" });
             });
 
-            //services.AddAuthentication().AddCookie("Cookies", options =>
-            //{
-            //    options.Cookie.Name = "dude";
-            //});
+            services.AddSingleton<AppSettings>(new AppSettings(Configuration));
 
-            //services.ConfigureApplicationCookie(config =>
-            //{
-            //    config.Cookie.Name = "dude";
-            //});
+            services.AddAuthenticationJwtSetup(Configuration);
 
             services.AddAuthorization(options =>
             {
@@ -71,6 +68,13 @@ namespace FinalMonth.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FinalMonth.Api v1"));
             }
+
+            app.UseCors(c =>
+            {
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+                c.AllowAnyOrigin();
+            });
 
             app.UseHttpsRedirection();
 

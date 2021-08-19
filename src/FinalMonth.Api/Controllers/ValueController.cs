@@ -28,6 +28,7 @@ namespace FinalMonth.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
             var claims = new List<Claim>
