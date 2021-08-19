@@ -25,8 +25,9 @@ namespace FinalMonth.Api
         {
             services.AddDbContext<FinalMonthDataContext>(config =>
             {
-                //config.UseMemoryCache(new MemoryCache(new MemoryCacheOptions()));
-                config.UseInMemoryDatabase("FinalMonth");
+                config.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), options =>
+                 {
+                 });
             });
             services.AddIdentity<ShinetechUser, IdentityRole>(setup =>
             {

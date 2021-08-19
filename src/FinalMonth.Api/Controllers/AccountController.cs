@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using FinalMonth.Infrastructure.Data;
@@ -23,12 +24,26 @@ namespace FinalMonth.Api.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromForm]string userName, [FromForm] string email, [FromForm]string password)
+        public async Task<IActionResult> Register([FromForm] string userName, [FromForm] string email, [FromForm] string password)
         {
-            var result = await _userManager.CreateAsync(new ShinetechUser { UserName = userName, Email = email }, password);
+            var shinetechUser = new ShinetechUser
+            {
+                UserName = userName,
+                Email = email,
+            };
+            var result = await _userManager.CreateAsync(shinetechUser, password);
             if (result.Succeeded)
             {
-                return Ok("successed");
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Role, "admin")
+                };
+
+                var claimResult = await _userManager.AddClaimsAsync(shinetechUser, claims);
+                if (claimResult.Succeeded)
+                {
+                    return Ok("successed");
+                }
             }
 
             return BadRequest();
@@ -36,7 +51,7 @@ namespace FinalMonth.Api.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromForm]string userName, [FromForm]string password)
+        public async Task<IActionResult> Login([FromForm] string userName, [FromForm] string password)
         {
             var result = await _userManager.FindByNameAsync(userName);
             if (result != null)
