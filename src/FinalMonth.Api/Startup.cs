@@ -45,10 +45,15 @@ namespace FinalMonth.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinalMonth.Api", Version = "v1" });
             });
 
-            services.ConfigureApplicationCookie(config =>
-            {
-                config.Cookie.Name = "dude";
-            });
+            //services.AddAuthentication().AddCookie("Cookies", options =>
+            //{
+            //    options.Cookie.Name = "dude";
+            //});
+
+            //services.ConfigureApplicationCookie(config =>
+            //{
+            //    config.Cookie.Name = "dude";
+            //});
 
             services.AddAuthorization(options =>
             {

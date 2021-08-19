@@ -65,31 +65,17 @@ namespace FinalMonth.Api.Controllers
         [HttpGet]
         [Route("admin")]
         [Authorize(Policy = "Admin")]
-        public IEnumerable<WeatherForecast> Admin()
+        public string Admin()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
-                    Summary = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToArray();
+            return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Value}";
         }
 
         [HttpGet]
         [Route("technology")]
         [Authorize(Roles = "admin,technology")]
-        public IEnumerable<WeatherForecast> Technology()
+        public string Technology()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
-                    Summary = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToArray();
+            return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Issuer}-{User.Claims.First().Value}";
         }
     }
 }

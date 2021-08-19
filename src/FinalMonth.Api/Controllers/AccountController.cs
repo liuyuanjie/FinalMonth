@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FinalMonth.Api.Command;
 using Microsoft.AspNetCore.Identity;
 using FinalMonth.Infrastructure.Data;
 
@@ -24,14 +25,14 @@ namespace FinalMonth.Api.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromForm] string userName, [FromForm] string email, [FromForm] string password)
+        public async Task<IActionResult> Register(RegisterCommand registerCommand)
         {
             var shinetechUser = new ShinetechUser
             {
-                UserName = userName,
-                Email = email,
+                UserName = registerCommand.UserName,
+                Email = registerCommand.Email,
             };
-            var result = await _userManager.CreateAsync(shinetechUser, password);
+            var result = await _userManager.CreateAsync(shinetechUser, registerCommand.Password);
             if (result.Succeeded)
             {
                 var claims = new List<Claim>
@@ -53,12 +54,12 @@ namespace FinalMonth.Api.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromForm] string userName, [FromForm] string password)
+        public async Task<IActionResult> Login(LoginCommand loginCommand)
         {
-            var result = await _userManager.FindByNameAsync(userName);
+            var result = await _userManager.FindByNameAsync(loginCommand.UserName);
             if (result != null)
             {
-                var signInRestult = await _signInManager.PasswordSignInAsync(result, password, false, false);
+                var signInRestult = await _signInManager.PasswordSignInAsync(result, loginCommand.Password, false, false);
                 if (signInRestult.Succeeded)
                 {
                     return Ok();

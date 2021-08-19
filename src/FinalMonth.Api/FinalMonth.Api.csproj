@@ -20,4 +20,8 @@
     <ProjectReference Include="..\FinalMonth.Infrastructure\FinalMonth.Infrastructure.Data\FinalMonth.Infrastructure.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Request\" />
+  </ItemGroup>
+
 </Project>
