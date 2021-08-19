@@ -50,15 +50,10 @@ namespace FinalMonth.Api
                 config.Cookie.Name = "dude";
             });
 
-            //services.AddAuthentication("Cookies").AddCookie("Cookies", options =>
-            //{
-            //    options.Cookie.Name = "dude";
-            //    options.Validate("logsf");
-            //});
-
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("A2", policy => policy.RequireRole("A2"));
+                options.AddPolicy("Admin", policy => policy.RequireRole("admin"));
+                options.AddPolicy("Technology", policy => policy.RequireRole("technology"));
             });
         }
 

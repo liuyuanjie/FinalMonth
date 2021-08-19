@@ -36,7 +36,9 @@ namespace FinalMonth.Api.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Role, "admin")
+                    //new Claim(ClaimTypes.Role, "admin"),
+                    new Claim(ClaimTypes.Role, "technology"),
+                    new Claim(ClaimTypes.Role, "tester"),
                 };
 
                 var claimResult = await _userManager.AddClaimsAsync(shinetechUser, claims);

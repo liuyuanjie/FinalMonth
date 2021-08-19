@@ -61,5 +61,35 @@ namespace FinalMonth.Api.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet]
+        [Route("admin")]
+        [Authorize(Policy = "Admin")]
+        public IEnumerable<WeatherForecast> Admin()
+        {
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = rng.Next(-20, 55),
+                    Summary = Summaries[rng.Next(Summaries.Length)]
+                })
+                .ToArray();
+        }
+
+        [HttpGet]
+        [Route("technology")]
+        [Authorize(Roles = "admin,technology")]
+        public IEnumerable<WeatherForecast> Technology()
+        {
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = rng.Next(-20, 55),
+                    Summary = Summaries[rng.Next(Summaries.Length)]
+                })
+                .ToArray();
+        }
     }
 }
