@@ -14,9 +14,13 @@ namespace FinalMonth.Api.ServiceExtensions
     {
         public static void AddAuthenticationJwtSetup(this IServiceCollection services, IConfiguration configuration)
         {
-            var issuer = configuration["Jwt:Issuer"];
             var key = configuration["Jwt:Key"];
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            var issuer = configuration["Jwt:Issuer"];
+            services.AddAuthentication(auth =>
+                {
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters

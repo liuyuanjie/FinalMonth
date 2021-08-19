@@ -19,9 +19,8 @@ namespace FinalMonth.Api.Common
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            //Create Security Token object by giving required parameters    
-            var token = new JwtSecurityToken(issuer, //Issure    
-                issuer,  //Audience    
+            var token = new JwtSecurityToken(issuer,
+                issuer,
                 claims,
                 expires: DateTime.Now.AddDays(10),
                 signingCredentials: credentials);
