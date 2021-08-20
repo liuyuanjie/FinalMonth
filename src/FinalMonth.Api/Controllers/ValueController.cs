@@ -31,6 +31,7 @@ namespace FinalMonth.Api.Controllers
         [Authorize]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
+            var isIn = User.IsInRole("admin");
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, "kaka")
@@ -58,16 +59,41 @@ namespace FinalMonth.Api.Controllers
 
         [HttpGet]
         [Route("admin")]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "admin")]
         public string Admin()
         {
             return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Value}";
         }
 
+
         [HttpGet]
-        [Route("technology")]
-        [Authorize(Roles = "admin,technology")]
-        public string Technology()
+        [Route("develop")]
+        [Authorize(Policy = "develop")]
+        public string Develop()
+        {
+            return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Value}";
+        }
+
+        [HttpGet]
+        [Route("adminrole")]
+        [Authorize(Roles = "admin")]
+        public string AdminRole()
+        {
+            return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Issuer}-{User.Claims.First().Value}";
+        }
+
+        [HttpGet]
+        [Route("developrole")]
+        [Authorize(Roles = "admin,develop")]
+        public string DevelopRole()
+        {
+            return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Issuer}-{User.Claims.First().Value}";
+        }
+
+        [HttpGet]
+        [Route("testrole")]
+        [Authorize(Roles = "admin,develop,test")]
+        public string TestRole()
         {
             return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Issuer}-{User.Claims.First().Value}";
         }

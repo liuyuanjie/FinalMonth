@@ -94,6 +94,31 @@ namespace FinalMonth.Api.Controllers
         }
 
         [HttpPost]
+        [Route("Loginnoclaim")]
+        public async Task<IActionResult> LoginNoClaim(LoginCommand loginCommand)
+        {
+            var user = await _userManager.FindByNameAsync(loginCommand.UserName);
+            if (user != null)
+            {
+                var valid = await _userManager.CheckPasswordAsync(user, loginCommand.Password);
+                if (valid)
+                {
+                    var claims = await _userManager.GetClaimsAsync(user);
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
+
+                    return Ok();
+                }
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
         [Route("IdentityLogin")]
         public async Task<IActionResult> IdentityLogin(LoginCommand loginCommand)
         {

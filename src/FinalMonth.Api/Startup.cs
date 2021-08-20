@@ -5,6 +5,7 @@ using FinalMonth.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,7 @@ namespace FinalMonth.Api
                 setup.Password.RequireNonAlphanumeric = false;
                 setup.Password.RequiredLength = 4;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<FinalMonthDataContext>()
             .AddDefaultTokenProviders();
 
@@ -56,30 +58,25 @@ namespace FinalMonth.Api
             //add jwt authentication
             services.AddAuthenticationJwtSetup(Configuration);
 
-            // add cookie authentication
-            services.AddAuthentication().AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, configure =>
-
-            {
-                configure.Cookie.Name = "shinetech";
-            });
-
             // add identity cookie authentication
             services.ConfigureApplicationCookie(config =>
             {
+                config.Cookie.Name = "shinetech";
             });
-
-            var multiSchemePolicy = new AuthorizationPolicyBuilder(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    JwtBearerDefaults.AuthenticationScheme,
-                    IdentityConstants.ApplicationScheme)
-                .RequireAuthenticatedUser()
-                .Build();
 
             services.AddAuthorization(options =>
             {
+                var multiSchemePolicy = new AuthorizationPolicyBuilder(
+                        IdentityConstants.ApplicationScheme,
+                        JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
                 options.DefaultPolicy = multiSchemePolicy;
-                options.AddPolicy("Admin", policy => policy.RequireRole("admin"));
-                options.AddPolicy("Technology", policy => policy.RequireRole("technology"));
+                options.AddPolicy("admin", policy =>
+                {
+                    policy.RequireRole("admin");
+                });
+                options.AddPolicy("develop", policy => policy.RequireRole("develop"));
             });
         }
 
