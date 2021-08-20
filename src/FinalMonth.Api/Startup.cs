@@ -73,7 +73,7 @@ namespace FinalMonth.Api
                     JwtBearerDefaults.AuthenticationScheme,
                     IdentityConstants.ApplicationScheme)
                 .RequireAuthenticatedUser()
-                .RequireRole("test", "develop")
+                .RequireRole("test", "develop") // the user should have the test and develop roles.
                 .Build();
 
             services.AddAuthorization(options =>
