@@ -1,7 +1,9 @@
 using FinalMonth.Api.Common;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -50,10 +52,31 @@ namespace FinalMonth.Api
 
             services.AddSingleton<AppSettings>(new AppSettings(Configuration));
 
+            //add jwt authentication
             services.AddAuthenticationJwtSetup(Configuration);
+
+            // add cookie authentication
+            services.AddAuthentication().AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, configure =>
+
+            {
+                configure.Cookie.Name = "shinetech";
+            });
+
+            // add identity cookie authentication
+            services.ConfigureApplicationCookie(config =>
+            {
+            });
+
+            var multiSchemePolicy = new AuthorizationPolicyBuilder(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    JwtBearerDefaults.AuthenticationScheme,
+                    IdentityConstants.ApplicationScheme)
+                .RequireAuthenticatedUser()
+                .Build();
 
             services.AddAuthorization(options =>
             {
+                options.DefaultPolicy = multiSchemePolicy;
                 options.AddPolicy("Admin", policy => policy.RequireRole("admin"));
                 options.AddPolicy("Technology", policy => policy.RequireRole("technology"));
             });

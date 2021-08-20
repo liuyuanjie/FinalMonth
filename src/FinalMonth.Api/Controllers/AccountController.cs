@@ -8,6 +8,8 @@ using FinalMonth.Api.Command;
 using FinalMonth.Api.Common;
 using Microsoft.AspNetCore.Identity;
 using FinalMonth.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FinalMonth.Api.Controllers
@@ -60,11 +62,46 @@ namespace FinalMonth.Api.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login(LoginCommand loginCommand)
         {
+            var user = await _userManager.FindByNameAsync(loginCommand.UserName);
+            if (user != null)
+            {
+                var valid = await _userManager.CheckPasswordAsync(user, loginCommand.Password);
+                if (valid)
+                {
+                    var roleResult = await _userManager.GetRolesAsync(user);
+                    var claims = new List<Claim>()
+                    {
+                        new(ClaimTypes.Name,user.UserName),
+                        new(ClaimTypes.Email,user.Email),
+                    };
+                    foreach (var role in roleResult)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
+
+                    return Ok();
+                }
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("IdentityLogin")]
+        public async Task<IActionResult> IdentityLogin(LoginCommand loginCommand)
+        {
             var result = await _userManager.FindByNameAsync(loginCommand.UserName);
             if (result != null)
             {
-                var signInRestult = await _signInManager.PasswordSignInAsync(result, loginCommand.Password, false, false);
-                if (signInRestult.Succeeded)
+                var signIn = await _signInManager.PasswordSignInAsync(result, loginCommand.Password, false, false);
+                if (signIn.Succeeded)
                 {
                     return Ok();
                 }
@@ -80,7 +117,6 @@ namespace FinalMonth.Api.Controllers
             var user = await _userManager.FindByNameAsync(loginCommand.UserName);
             if (user != null)
             {
-                //var signInRestult = await _signInManager.PasswordSignInAsync(user, loginCommand.Password, false, false);
                 var valid = await _userManager.CheckPasswordAsync(user, loginCommand.Password);
                 if (valid)
                 {

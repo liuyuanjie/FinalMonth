@@ -14,7 +14,7 @@ namespace FinalMonth.Api.Common
         {
             _configuration = configuration;
         }
-
-        public static IConfiguration Current => _configuration;
+        
+        public static IConfiguration Current => _configuration; 
     }
 }
