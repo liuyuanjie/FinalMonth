@@ -76,7 +76,7 @@ namespace FinalMonth.Api.Controllers
                     };
                     foreach (var role in roleResult)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, role));
+                        claims.Add(new Claim(ClaimTypes.Role, role)); 
                     }
 
                     var claimsIdentity = new ClaimsIdentity(

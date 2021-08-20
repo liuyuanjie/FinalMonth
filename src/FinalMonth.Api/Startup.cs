@@ -1,4 +1,5 @@
 using FinalMonth.Api.Common;
+using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -108,6 +109,9 @@ namespace FinalMonth.Api
 
             // what are you
             app.UseAuthorization();
+
+            // use custom jwt middleware
+            app.UseCustomJwtMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
