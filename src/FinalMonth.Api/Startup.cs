@@ -1,3 +1,4 @@
+using FinalMonth.Api.AuthenticationSchemes;
 using FinalMonth.Api.Common;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
@@ -21,6 +22,7 @@ namespace FinalMonth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -71,6 +73,7 @@ namespace FinalMonth.Api
             var multiSchemePolicy = new AuthorizationPolicyBuilder(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     JwtBearerDefaults.AuthenticationScheme,
+                    ShinetechAuthenticationDefaults.AuthenticationScheme,
                     IdentityConstants.ApplicationScheme)
                 .RequireAuthenticatedUser()
                 .RequireRole("test", "develop") // the user should have the test and develop roles.
@@ -84,10 +87,19 @@ namespace FinalMonth.Api
                     policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
                     policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                     policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
+                    policy.AuthenticationSchemes.Add(ShinetechAuthenticationDefaults.AuthenticationScheme);
                     policy.RequireRole("admin");
                 });
                 options.AddPolicy("develop", policy => policy.RequireRole("develop"));
             });
+
+            services.AddAuthentication(ShinetechAuthenticationDefaults.AuthenticationScheme)
+                .AddScheme<ShinetechAuthOptions, ShinetechAuthenticationHandler>(ShinetechAuthenticationDefaults.AuthenticationScheme,
+                    o =>
+                    {
+                        o.JwtKey = Configuration.GetValue<string>("Jwt:Key");
+                        o.JwtIssuer = Configuration.GetValue<string>("Jwt:Issuer");
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

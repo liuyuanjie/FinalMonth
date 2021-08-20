@@ -18,7 +18,7 @@ namespace FinalMonth.Api.CustomMiddlewares
 
         public async Task Invoke(HttpContext context)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Substring("Bearer ".Length).Trim();
 
             if (token != null)
                  attachLoginUserToContext(context, token);
