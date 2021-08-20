@@ -18,8 +18,8 @@ namespace FinalMonth.Api.ServiceExtensions
             var issuer = configuration["Jwt:Issuer"];
             services.AddAuthentication(auth =>
                 {
-                    //auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    //auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options =>
                 {

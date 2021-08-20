@@ -1,11 +1,9 @@
 using FinalMonth.Api.Common;
-using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +41,6 @@ namespace FinalMonth.Api
                 setup.Password.RequireNonAlphanumeric = false;
                 setup.Password.RequiredLength = 4;
             })
-            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<FinalMonthDataContext>()
             .AddDefaultTokenProviders();
 
@@ -58,22 +55,35 @@ namespace FinalMonth.Api
             //add jwt authentication
             services.AddAuthenticationJwtSetup(Configuration);
 
+            // add cookie authentication
+            services.AddAuthentication().AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, configure =>
+
+            {
+                configure.Cookie.Name = "shinetech";
+            });
+
             // add identity cookie authentication
             services.ConfigureApplicationCookie(config =>
             {
-                config.Cookie.Name = "shinetech";
             });
+
+            // global authorization supports three authentications
+            var multiSchemePolicy = new AuthorizationPolicyBuilder(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    JwtBearerDefaults.AuthenticationScheme,
+                    IdentityConstants.ApplicationScheme)
+                .RequireAuthenticatedUser()
+                .RequireRole("test", "develop")
+                .Build();
 
             services.AddAuthorization(options =>
             {
-                var multiSchemePolicy = new AuthorizationPolicyBuilder(
-                        IdentityConstants.ApplicationScheme,
-                        JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build();
                 options.DefaultPolicy = multiSchemePolicy;
-                options.AddPolicy("admin", policy =>
+                options.AddPolicy("Admin", policy =>
                 {
+                    policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
                     policy.RequireRole("admin");
                 });
                 options.AddPolicy("develop", policy => policy.RequireRole("develop"));
@@ -106,9 +116,6 @@ namespace FinalMonth.Api
 
             // what are you
             app.UseAuthorization();
-
-            // use custom jwt middleware
-            app.UseCustomJwtMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
