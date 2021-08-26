@@ -1,5 +1,7 @@
 using FinalMonth.Api.AuthenticationSchemes;
+using FinalMonth.Api.AuthorizationRequirements;
 using FinalMonth.Api.Common;
+using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,6 +16,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace FinalMonth.Api
 {
@@ -91,6 +96,9 @@ namespace FinalMonth.Api
                     policy.RequireRole("admin");
                 });
                 options.AddPolicy("develop", policy => policy.RequireRole("develop"));
+
+                options.AddPolicy("AtLeast21", policy =>
+                    policy.Requirements.Add(new MinimumAgeRequirement(21)));
             });
 
             services.AddAuthentication(ShinetechAuthenticationDefaults.AuthenticationScheme)
@@ -128,6 +136,8 @@ namespace FinalMonth.Api
 
             // what are you
             app.UseAuthorization();
+
+            app.UseCustomJwtMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

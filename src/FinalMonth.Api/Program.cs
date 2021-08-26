@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinalMonth.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace FinalMonth.Api
 {
@@ -16,7 +18,15 @@ namespace FinalMonth.Api
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args)
+                .ConfigureServices(services =>
+                {
+                    services.AddLogging(loggingBuilder =>
+                    {
+
+                    });
+                })
+                .Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -52,7 +62,21 @@ namespace FinalMonth.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .ConfigureAppConfiguration(config =>
+                        {
+                            config.AddJsonFile($"serilogSettings.json", optional: true);
+                        })
+                        .UseSerilog((hostingContext, loggerConfiguration) =>
+                        {
+                            loggerConfiguration
+                                .ReadFrom.Configuration(hostingContext.Configuration)
+                                .Enrich.FromLogContext()
+                                .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
+                                .Enrich.WithProperty("Environment", hostingContext.HostingEnvironment);
+                        });
                 });
+
     }
 }
