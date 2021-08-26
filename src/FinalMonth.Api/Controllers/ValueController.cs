@@ -54,12 +54,13 @@ namespace FinalMonth.Api.Controllers
         [Authorize]
         public string Authorize()
         {
+            _logger.LogInformation("Name:{username},login: {login}", HttpContext.User.Identity.Name, HttpContext.Items["loginName"]);
             return $"Name:{HttpContext.User.Identity.Name},login: {HttpContext.Items["loginName"]}";
         }
 
         [HttpGet]
         [Route("admin")]
-        [Authorize(Policy = "admin")]
+        [Authorize("admin")]
         public string Admin()
         {
             return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Value}";
@@ -84,7 +85,7 @@ namespace FinalMonth.Api.Controllers
 
         [HttpGet]
         [Route("developrole")]
-        [Authorize(Roles = "admin,develop")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "admin,develop")]
         public string DevelopRole()
         {
             return $"Name:{HttpContext.User.Identity.Name},claim: {User.Claims.First().Issuer}-{User.Claims.First().Value}";
