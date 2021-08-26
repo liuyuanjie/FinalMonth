@@ -8,6 +8,7 @@ using FinalMonth.Api.Command;
 using FinalMonth.Api.Common;
 using Microsoft.AspNetCore.Identity;
 using FinalMonth.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -18,11 +19,13 @@ namespace FinalMonth.Api.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly UserManager<ShinetechUser> _userManager;
         private readonly SignInManager<ShinetechUser> _signInManager;
 
-        public AccountController(UserManager<ShinetechUser> userManager, SignInManager<ShinetechUser> signInManager)
+        public AccountController(IMediator mediator, UserManager<ShinetechUser> userManager, SignInManager<ShinetechUser> signInManager)
         {
+            _mediator = mediator;
             this._userManager = userManager;
             this._signInManager = signInManager;
         }
@@ -76,7 +79,7 @@ namespace FinalMonth.Api.Controllers
                     };
                     foreach (var role in roleResult)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, role)); 
+                        claims.Add(new Claim(ClaimTypes.Role, role));
                     }
 
                     var claimsIdentity = new ClaimsIdentity(
@@ -139,26 +142,11 @@ namespace FinalMonth.Api.Controllers
         [Route("JwtLogin")]
         public async Task<IActionResult> JwtLogin(LoginCommand loginCommand)
         {
-            var user = await _userManager.FindByNameAsync(loginCommand.UserName);
-            if (user != null)
+            var command = await _mediator.Send(loginCommand);
+            if (command.Any())
             {
-                var valid = await _userManager.CheckPasswordAsync(user, loginCommand.Password);
-                if (valid)
-                {
-                    var roleResult = await _userManager.GetRolesAsync(user);
-                    var claims = new List<Claim>()
-                    {
-                        new(ClaimTypes.Name,user.UserName),
-                        new(ClaimTypes.Email,user.Email),
-                    };
-                    foreach (var role in roleResult)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-                    return Ok(JwtTokenGenerator.Generator(claims));
-                }
+                return Ok(JwtTokenGenerator.Generator(command));
             }
-
             return BadRequest();
         }
     }

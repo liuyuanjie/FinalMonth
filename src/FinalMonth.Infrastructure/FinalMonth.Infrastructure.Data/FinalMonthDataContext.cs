@@ -17,13 +17,17 @@ namespace FinalMonth.Infrastructure.Data
 
         }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
             builder.ApplyConfiguration(new MemberEntityConfiguration());
             base.OnModelCreating(builder);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
 
         public DbSet<Member> Members { get; set; }

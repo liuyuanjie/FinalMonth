@@ -12,7 +12,7 @@ namespace FinalMonth.Api.Common
 {
     public static class JwtTokenGenerator
     {
-        public static string Generator(List<Claim> claims)
+        public static string Generator(IList<Claim> claims)
         {
             var key = AppSettings.Current["Jwt:Key"];
             var issuer = AppSettings.Current["Jwt:Issuer"];

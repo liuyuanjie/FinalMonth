@@ -4,6 +4,7 @@ using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -108,6 +109,9 @@ namespace FinalMonth.Api
                         o.JwtKey = Configuration.GetValue<string>("Jwt:Key");
                         o.JwtIssuer = Configuration.GetValue<string>("Jwt:Issuer");
                     });
+
+            services.AddMediatR(typeof(Program).Assembly);
+            services.AddScoped<IFinalMonthDataContext,FinalMonthDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
