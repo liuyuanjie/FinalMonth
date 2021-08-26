@@ -4,14 +4,16 @@ using FinalMonth.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalMonth.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FinalMonthDataContext))]
-    partial class FinalMonthDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210826063320_AddMember")]
+    partial class AddMember
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
