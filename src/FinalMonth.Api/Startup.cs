@@ -57,7 +57,7 @@ namespace FinalMonth.Api
 
             services.AddControllers(configure =>
             {
-                configure.Filters.Add(typeof(ServiceExceptionInterceptor));
+                //configure.Filters.Add(typeof(ServiceExceptionInterceptor));
             });
             services.AddSwaggerGen(c =>
             {
@@ -140,6 +140,8 @@ namespace FinalMonth.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCustomExceptionMiddleware();
 
             // who are you
             app.UseAuthentication();

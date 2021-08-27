@@ -30,5 +30,12 @@ namespace FinalMonth.Api.Controllers
             throw new ArgumentException("Test exception attribute.");
         }
 
+        [HttpGet]
+        [Route("middleware")]
+        //[ServiceException]
+        public async Task<IActionResult> TestMiddleware()
+        {
+            throw new ArgumentException("Test exception attribute.");
+        }
     }
 }
