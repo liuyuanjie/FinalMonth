@@ -2,7 +2,9 @@ using FinalMonth.Api.AuthenticationSchemes;
 using FinalMonth.Api.AuthorizationRequirements;
 using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
+using FinalMonth.Api.Filters;
 using FinalMonth.Api.ServiceExtensions;
+using FinalMonth.Api.Services;
 using FinalMonth.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,7 +55,10 @@ namespace FinalMonth.Api
             .AddEntityFrameworkStores<FinalMonthDataContext>()
             .AddDefaultTokenProviders();
 
-            services.AddControllers();
+            services.AddControllers(configure =>
+            {
+                configure.Filters.Add(typeof(ServiceExceptionInterceptor));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinalMonth.Api", Version = "v1" });
@@ -111,7 +117,7 @@ namespace FinalMonth.Api
                     });
 
             services.AddMediatR(typeof(Program).Assembly);
-            services.AddScoped<IFinalMonthDataContext,FinalMonthDataContext>();
+            services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using FinalMonth.Api.Command;
+using FinalMonth.Api.Filters;
 using FinalMonth.Api.Query;
 using FinalMonth.Infrastructure.Data;
 using MediatR;
