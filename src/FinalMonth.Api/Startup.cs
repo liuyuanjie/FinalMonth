@@ -5,7 +5,6 @@ using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
-using FinalMonth.Api.SignalR;
 using FinalMonth.Infrastructure.Data;
 using FluentValidation;
 using MediatR;
@@ -123,6 +122,8 @@ namespace FinalMonth.Api
             services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
 
             services.AddSignalR();
+
+            services.AddScoped<INotificationMessageHandler, NotificationMessageHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
