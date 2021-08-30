@@ -35,6 +35,7 @@ namespace FinalMonth.Api
                 try
                 {
                     var context = services.GetRequiredService<FinalMonthDataContext>();
+                    context.Database.EnsureCreated();
                     context.Database.Migrate();
 
                     // requires using Microsoft.Extensions.Configuration;

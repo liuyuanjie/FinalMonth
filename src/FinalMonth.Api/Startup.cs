@@ -1,28 +1,23 @@
 using FinalMonth.Api.AuthenticationSchemes;
 using FinalMonth.Api.AuthorizationRequirements;
+using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
-using FinalMonth.Api.Filters;
 using FinalMonth.Api.ServiceExtensions;
-using FinalMonth.Api.Services;
 using FinalMonth.Infrastructure.Data;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Extensions.Logging;
 
 namespace FinalMonth.Api
 {
@@ -116,7 +111,12 @@ namespace FinalMonth.Api
                         o.JwtIssuer = Configuration.GetValue<string>("Jwt:Issuer");
                     });
 
-            services.AddMediatR(typeof(Program).Assembly);
+            services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddMediatR(typeof(Startup).Assembly);
+
+
             services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
         }
 

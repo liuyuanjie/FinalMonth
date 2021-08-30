@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FinalMonth.Api.Command;
 using FinalMonth.Api.Filters;
+using FinalMonth.Api.Notification;
 using FinalMonth.Api.Query;
 using FinalMonth.Infrastructure.Data;
 using MediatR;
@@ -38,6 +39,15 @@ namespace FinalMonth.Api.Controllers
         public async Task<IList<Member>> GetMembers(GetMemberQuery query)
         {
             return await _mediator.Send(query);
+        }
+
+        [HttpGet]
+        [Route("send")]
+        public async Task<IActionResult> SendMember()
+        {
+            await _mediator.Publish(new SendMemberNotification());
+
+            return new OkResult();
         }
     }
 }

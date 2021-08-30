@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FinalMonth.Infrastructure.Data;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -16,6 +18,15 @@ namespace FinalMonth.Api.Command
         public string UserId { get; set; }
         public int Age { get; set; }
         public string JobTitle { get; set; }
+    }
+
+    public class AddMemberCommandValidator : AbstractValidator<AddMemberCommand>
+    {
+        public AddMemberCommandValidator()
+        {
+            RuleFor(c => c.Age).NotEmpty().GreaterThan(18);
+            RuleFor(c => c.JobTitle).NotEmpty().MaximumLength(10);
+        }
     }
 
     public class AddMemberCommandHandler : IRequestHandler<AddMemberCommand, bool>
