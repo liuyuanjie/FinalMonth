@@ -3,7 +3,9 @@ using FinalMonth.Api.AuthorizationRequirements;
 using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
+using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
+using FinalMonth.Api.SignalR;
 using FinalMonth.Infrastructure.Data;
 using FluentValidation;
 using MediatR;
@@ -18,6 +20,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FinalMonth.Api
 {
@@ -118,6 +121,8 @@ namespace FinalMonth.Api
 
 
             services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -154,6 +159,7 @@ namespace FinalMonth.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationMessageHub>("/notificationmessagehub");
             });
         }
     }
