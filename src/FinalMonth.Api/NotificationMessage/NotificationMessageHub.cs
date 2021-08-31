@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FinalMonth.Api.Command;
 using MediatR;
-using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +20,6 @@ namespace FinalMonth.Api.NotificationMessage
 
         public Task SendMessage(string user, string message)
         {
-
             return Clients.All.ReceiveMessage(user, message);
         }
 

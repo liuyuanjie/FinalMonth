@@ -11,10 +11,10 @@ namespace FinalMonthClient
     {
         private readonly HubConnection _connection;
 
-        public SignalRClient()
+        public SignalRClient(string point)
         {
             _connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/notificationmessagehub")
+                .WithUrl($"https://localhost:{point}/notificationmessagehub")
                 .Build();
 
             _connection.Closed += async (error) =>
