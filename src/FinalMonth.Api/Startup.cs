@@ -1,5 +1,3 @@
-using System;
-using System.Net;
 using FinalMonth.Api.AuthenticationSchemes;
 using FinalMonth.Api.AuthorizationRequirements;
 using FinalMonth.Api.Behaviors;
@@ -10,7 +8,6 @@ using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +19,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SignalR.StackExchangeRedis;
-using StackExchange.Redis;
 
 namespace FinalMonth.Api
 {

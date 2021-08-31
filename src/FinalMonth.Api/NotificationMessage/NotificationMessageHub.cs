@@ -25,12 +25,11 @@ namespace FinalMonth.Api.NotificationMessage
 
         public Task ReceiveMessage(string user, string message)
         {
-            _mediator.Send(new SendNotificationMessageCommand()
+            return _mediator.Send(new SendNotificationMessageCommand()
             {
                 User = user,
                 Message = message
             });
-            return Task.CompletedTask;
         }
     }
 }

@@ -8,15 +8,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FinalMonth.Infrastructure.Data
 {
-    public class Member
+    public class NotificationMessage
     {
         [Key]
-        public string MemberId { get; set; }
-        public string UserId { get; set; }
-        public int Age { get; set; }
-        public string JobTitle { get; set; }
-        public DateTime JoinDate { get; set; }
-
-        public ShinetechUser User { get; set; }
+        public string NotificationId { get; set; }
+        public string Message { get; set; }
+        public string From { get; set; }
     }
 }

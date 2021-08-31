@@ -22,6 +22,7 @@ namespace FinalMonth.Infrastructure.Data
             //builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
             builder.ApplyConfiguration(new MemberEntityConfiguration());
+            builder.ApplyConfiguration(new NotificationMessageEntityConfiguration());
             base.OnModelCreating(builder);
         }
 
@@ -31,5 +32,6 @@ namespace FinalMonth.Infrastructure.Data
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<NotificationMessage> NotificationMessages { get; set; }
     }
 }
