@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FinalMonth.Infrastructure.Data.EntityConfigurations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FinalMonth.Infrastructure.Data
 {
@@ -30,6 +33,8 @@ namespace FinalMonth.Infrastructure.Data
         {
             return await base.SaveChangesAsync();
         }
+
+        public DatabaseFacade Database => base.Database;
 
         public DbSet<Member> Members { get; set; }
         public DbSet<NotificationMessage> NotificationMessages { get; set; }

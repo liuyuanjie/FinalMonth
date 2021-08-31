@@ -117,16 +117,24 @@ namespace FinalMonth.Api
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddMediatR(typeof(Startup).Assembly);
 
-
             services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
 
-            services.AddSignalR().AddStackExchangeRedis("localhost:6179,keepAlive=180", options =>
+            services.AddSignalR().AddStackExchangeRedis(Configuration.GetValue<string>("Redis:ConnectionString"), options =>
             {
                 options.Configuration.ChannelPrefix = "FinalMonthApp";
                 options.Configuration.DefaultDatabase = 5;
             });
 
             services.AddScoped<INotificationMessageHandler, NotificationMessageHandler>();
+
+            services.AddCap(options =>
+            {
+                options.UseEntityFramework<FinalMonthDataContext>();
+                options.UseRabbitMQ(options =>
+                {
+                    Configuration.GetSection("RabbitMQ").Bind(options);
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
