@@ -134,6 +134,7 @@ namespace FinalMonth.Api
                 {
                     Configuration.GetSection("RabbitMQ").Bind(options);
                 });
+                options.ConsumerThreadCount = 10;
             });
         }
 

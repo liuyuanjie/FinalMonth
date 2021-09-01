@@ -7,7 +7,7 @@ using DotNetCore.CAP;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
-namespace CapApi.MiscConsumer.Api.Controllers
+namespace CapApi.MiscConsumer.Api2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -15,23 +15,7 @@ namespace CapApi.MiscConsumer.Api.Controllers
     {
         [HttpGet]
         [Route("check")]
-        [CapSubscribe("xxx.services.show.time")]
-        public void CheckReceivedMessage(DateTime? datetime)
-        {
-            using (var connection = new SqlConnection("Server=.;Database=FinalMonth;Trusted_Connection=True;"))
-            {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT NEWID()";
-                var guid = command.ExecuteScalar();
-            }
-
-            Console.WriteLine(datetime);
-        }
-
-        [HttpGet]
-        [Route("check1")]
-        [CapSubscribe("xxx.services.show.time")]
+        [CapSubscribe("*.services.show.time")]
         public void CheckReceivedMessage1(DateTime? datetime)
         {
             using (var connection = new SqlConnection("Server=.;Database=FinalMonth;Trusted_Connection=True;"))
@@ -42,7 +26,7 @@ namespace CapApi.MiscConsumer.Api.Controllers
                 var guid = command.ExecuteScalar();
             }
 
-            Console.WriteLine(datetime+ "check1");
+            Console.WriteLine(datetime + "check1");
         }
     }
 }
