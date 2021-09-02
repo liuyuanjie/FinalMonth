@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace RabbitMQClient.producer
+namespace RabbitMQClient.Producer
 {
     class Program
     {

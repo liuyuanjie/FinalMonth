@@ -30,7 +30,7 @@ namespace CapApi.MiscConsumer.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CapApi.MiscConsumer.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CapApi.MicroConsumer.Api", Version = "v1" });
             });
 
             services.AddCap(options =>
