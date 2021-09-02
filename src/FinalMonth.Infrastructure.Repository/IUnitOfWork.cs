@@ -5,6 +5,6 @@ namespace FinalMonth.Infrastructure.Repository
 {
     public interface IUnitOfWork
     {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> CommitAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }
