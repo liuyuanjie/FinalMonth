@@ -25,5 +25,15 @@ namespace FinalMonth.Infrastructure.Data
         {
             return await _dataContext.Set<T>().FindAsync();
         }
+
+        public void Update(T entity)
+        {
+            _dataContext.Set<T>().Update(entity);
+        }
+
+        public void Create(T entity)
+        { 
+            _dataContext.Set<T>().Add(entity);
+        }
     }
 }

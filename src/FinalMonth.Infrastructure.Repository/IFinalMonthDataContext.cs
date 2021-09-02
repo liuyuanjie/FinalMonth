@@ -12,10 +12,6 @@ namespace FinalMonth.Infrastructure.Data
 {
     public interface IFinalMonthDataContext
     {
-        DbSet<Member> Members { get; set; }
-        DbSet<NotificationMessage> NotificationMessages { get; set; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-
         DatabaseFacade Database { get;}
     }
 }

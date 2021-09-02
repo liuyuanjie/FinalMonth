@@ -6,6 +6,7 @@ using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Infrastructure.Data;
+using FinalMonth.Infrastructure.Repository;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -138,6 +139,7 @@ namespace FinalMonth.Api
             });
 
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
 

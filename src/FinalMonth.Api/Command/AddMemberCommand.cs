@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FinalMonth.Infrastructure.Data;
+using FinalMonth.Infrastructure.Repository;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FinalMonth.Api.Command
 {
@@ -31,23 +25,23 @@ namespace FinalMonth.Api.Command
 
     public class AddMemberCommandHandler : IRequestHandler<AddMemberCommand, bool>
     {
-        private readonly IFinalMonthDataContext _dataContext;
+        private readonly IGenericRepository<Member> _rep;
 
-        public AddMemberCommandHandler(IFinalMonthDataContext dataContext)
+        public AddMemberCommandHandler(IGenericRepository<Member> rep)
         {
-            _dataContext = dataContext;
+            _rep = rep;
         }
 
         public async Task<bool> Handle(AddMemberCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.Members.Add(new Member
+            _rep.Create(new Member
             {
                 UserId = request.UserId,
                 Age = request.Age,
                 JobTitle = request.JobTitle
             });
 
-            var result = await _dataContext.SaveChangesAsync();
+            var result = await _rep.UnitOfWOrk.CommitAsync(cancellationToken);
 
             return result > 0;
         }

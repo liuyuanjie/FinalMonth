@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FinalMonth.Infrastructure.Data;
+using FinalMonth.Infrastructure.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,15 +18,15 @@ namespace FinalMonth.Api.Query
 
     public class GetMemberQueryHandler : IRequestHandler<GetMemberQuery, IList<Member>>
     {
-        private readonly IFinalMonthDataContext _dataContext;
+        private readonly IGenericRepository<Member> _repository;
 
-        public GetMemberQueryHandler(IFinalMonthDataContext dataContext)
+        public GetMemberQueryHandler(IGenericRepository<Member> repository)
         {
-            _dataContext = dataContext;
+            _repository = repository;
         }
         public async Task<IList<Member>> Handle(GetMemberQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.Members.ToListAsync();
+            return await _repository.GetAllAsync();
         }
     }
 }
