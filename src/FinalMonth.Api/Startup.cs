@@ -136,6 +136,8 @@ namespace FinalMonth.Api
                 });
                 options.ConsumerThreadCount = 10;
             });
+
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
         }
 
 
