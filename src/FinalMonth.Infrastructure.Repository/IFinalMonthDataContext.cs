@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,6 +13,6 @@ namespace FinalMonth.Infrastructure.Data
 {
     public interface IFinalMonthDBContext
     {
-        DatabaseFacade Database { get;}
+        IDbConnection DbConnection { get;}
     }
 }

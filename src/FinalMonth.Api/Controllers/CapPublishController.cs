@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DotNetCore.CAP;
 using FinalMonth.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalMonth.Api.Controllers
 {
@@ -26,11 +27,12 @@ namespace FinalMonth.Api.Controllers
         [Route("publish")]
         public IActionResult EntityFrameworkWithTransaction()
         {
-            using (var trans = _dbContext.Database.BeginTransaction(_capPublisher, autoCommit: true))
+            using (var trans = _dbContext.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
 
                 _capPublisher.Publish("xxx.services.show.time", DateTime.Now);
+                trans.Rollback();
             }
 
             return Ok();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace FinalMonth.Infrastructure.Data
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-        public DatabaseFacade Database => base.Database;
+        public IDbConnection DbConnection => base.Database.GetDbConnection();
 
         public DbSet<Member> Members { get; set; }
         public DbSet<NotificationMessage> NotificationMessages { get; set; }
