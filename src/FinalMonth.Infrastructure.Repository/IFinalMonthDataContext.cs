@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FinalMonth.Infrastructure.Data
 {
-    public interface IFinalMonthDataContext
+    public interface IFinalMonthDBContext
     {
         DatabaseFacade Database { get;}
     }

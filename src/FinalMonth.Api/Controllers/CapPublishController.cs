@@ -13,12 +13,12 @@ namespace FinalMonth.Api.Controllers
     [Route("[controller]")]
     public class CapPublishController:Controller
     {
-        private readonly IFinalMonthDataContext _dataContext;
+        private readonly IFinalMonthDBContext _dbContext;
         private readonly ICapPublisher _capPublisher;
 
-        public CapPublishController(IFinalMonthDataContext dataContext, ICapPublisher capPublisher)
+        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher)
         {
-            _dataContext = dataContext;
+            _dbContext = dbContext;
             _capPublisher = capPublisher;
         }
 
@@ -26,7 +26,7 @@ namespace FinalMonth.Api.Controllers
         [Route("publish")]
         public IActionResult EntityFrameworkWithTransaction()
         {
-            using (var trans = _dataContext.Database.BeginTransaction(_capPublisher, autoCommit: true))
+            using (var trans = _dbContext.Database.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
 

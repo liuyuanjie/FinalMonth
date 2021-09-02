@@ -36,7 +36,7 @@ namespace FinalMonth.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<FinalMonthDataContext>(config =>
+            services.AddDbContext<FinalMonthDbContext>(config =>
             {
                 config.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), options =>
                  {
@@ -49,7 +49,7 @@ namespace FinalMonth.Api
                 setup.Password.RequireNonAlphanumeric = false;
                 setup.Password.RequiredLength = 4;
             })
-            .AddEntityFrameworkStores<FinalMonthDataContext>()
+            .AddEntityFrameworkStores<FinalMonthDbContext>()
             .AddDefaultTokenProviders();
 
             services.AddControllers(configure =>
@@ -118,7 +118,7 @@ namespace FinalMonth.Api
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddMediatR(typeof(Startup).Assembly);
 
-            services.AddScoped<IFinalMonthDataContext, FinalMonthDataContext>();
+            services.AddScoped<IFinalMonthDBContext, FinalMonthDbContext>();
 
             services.AddSignalR().AddStackExchangeRedis(Configuration.GetValue<string>("Redis:ConnectionString"), options =>
             {
@@ -130,7 +130,7 @@ namespace FinalMonth.Api
 
             services.AddCap(options =>
             {
-                options.UseEntityFramework<FinalMonthDataContext>();
+                options.UseEntityFramework<FinalMonthDbContext>();
                 options.UseRabbitMQ(options =>
                 {
                     Configuration.GetSection("RabbitMQ").Bind(options);
