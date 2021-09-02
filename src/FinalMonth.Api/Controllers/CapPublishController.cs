@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNetCore.CAP;
 using FinalMonth.Infrastructure.Data;
+using FinalMonth.Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalMonth.Api.Controllers
@@ -11,11 +12,13 @@ namespace FinalMonth.Api.Controllers
     {
         private readonly IFinalMonthDBContext _dbContext;
         private readonly ICapPublisher _capPublisher;
+        private readonly IGenericRepository<Infrastructure.Data.NotificationMessage> _repository;
 
-        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher)
+        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher,IGenericRepository<Infrastructure.Data.NotificationMessage> repository)
         {
             _dbContext = dbContext;
             _capPublisher = capPublisher;
+            _repository = repository;
         }
 
         [HttpPost]
@@ -25,9 +28,14 @@ namespace FinalMonth.Api.Controllers
             using (var trans = _dbContext.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
+                _repository.Create(new Infrastructure.Data.NotificationMessage
+                {
+                    From = "cap",
+                    Message = DateTime.Now.ToString("O"),
+                });
+                _repository.UnitOfWOrk.CommitAsync();
 
                 _capPublisher.Publish("xxx.services.show.time", DateTime.Now);
-                trans.Rollback();
             }
 
             return Ok();
