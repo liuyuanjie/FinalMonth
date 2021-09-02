@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace FinalMonth.Infrastructure.Repository
 {
-    public interface IUnitOfWork<T> where T : class
+    public interface IUnitOfWork
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-
-        Task<List<T>> GetAllAsync();
-        Task<T> GetByIdAsync(int id);
     }
 }

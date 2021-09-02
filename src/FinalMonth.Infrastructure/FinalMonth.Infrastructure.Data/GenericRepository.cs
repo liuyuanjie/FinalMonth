@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinalMonth.Infrastructure.Data;
+using FinalMonth.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinalMonth.Infrastructure.Repository
+namespace FinalMonth.Infrastructure.Data
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly FinalMonthDataContext _dataContext;
 
-        public GenericRepository(FinalMonthDataContext dataContext)
+        public GenericRepository(FinalMonthDataContext dataContext, IUnitOfWork unitOfWork)
         {
             _dataContext = dataContext;
+            UnitOfWOrk = unitOfWork;
         }
+
+        public IUnitOfWork UnitOfWOrk { get; }
 
         public async Task<List<T>> GetAllAsync()
         {
