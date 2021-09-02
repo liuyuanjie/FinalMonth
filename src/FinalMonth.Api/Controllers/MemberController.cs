@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using FinalMonth.Api.Command;
-using FinalMonth.Api.Filters;
 using FinalMonth.Api.Notification;
 using FinalMonth.Api.Query;
 using FinalMonth.Infrastructure.Data;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalMonth.Api.Controllers
