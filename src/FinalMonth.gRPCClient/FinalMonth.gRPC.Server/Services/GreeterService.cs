@@ -23,5 +23,14 @@ namespace FinalMonth.gRPC.Server
                 Message = $"Hello {request.Name}"
             });
         }
+
+        public override Task<ByeReply> SayBye(ByeRequest request, ServerCallContext context)
+        {
+
+            return Task.FromResult(new ByeReply
+            {
+                Message = $"Bye {request.Name}"
+            });
+        }
     }
 }

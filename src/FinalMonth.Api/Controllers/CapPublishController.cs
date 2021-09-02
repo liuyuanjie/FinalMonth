@@ -23,7 +23,7 @@ namespace FinalMonth.Api.Controllers
         }
 
         [HttpPost]
-        [Route("~/ef/transaction")]
+        [Route("publish")]
         public IActionResult EntityFrameworkWithTransaction()
         {
             using (var trans = _dataContext.Database.BeginTransaction(_capPublisher, autoCommit: true))
