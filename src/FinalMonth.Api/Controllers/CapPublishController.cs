@@ -28,14 +28,15 @@ namespace FinalMonth.Api.Controllers
             using (var trans = _dbContext.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
-                _repository.Create(new Infrastructure.Data.NotificationMessage
+                var notificationMessage = new Infrastructure.Data.NotificationMessage
                 {
                     From = "cap",
                     Message = DateTime.Now.ToString("O"),
-                });
+                };
+                _repository.Create(notificationMessage);
                 _repository.UnitOfWOrk.CommitAsync();
 
-                _capPublisher.Publish("xxx.services.show.time", DateTime.Now);
+                _capPublisher.Publish("xxx.services.show.time", notificationMessage.ToString());
             }
 
             return Ok();
