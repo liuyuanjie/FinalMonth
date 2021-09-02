@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FinalMonth.Infrastructure.Data
 {
-    public class FinalMonthDataContext : IdentityDbContext<ShinetechUser>, IFinalMonthDataContext, IUnitOfWork
+    public class FinalMonthDataContext : IdentityDbContext<ShinetechUser>, IFinalMonthDataContext
     {
         public FinalMonthDataContext(DbContextOptions<FinalMonthDataContext> options)
             : base(options)
