@@ -8,13 +8,13 @@ namespace FinalMonth.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CapPublishController:Controller
+    public class CapPublishController : Controller
     {
         private readonly IFinalMonthDBContext _dbContext;
         private readonly ICapPublisher _capPublisher;
-        private readonly IGenericRepository<Infrastructure.Data.NotificationMessage> _repository;
+        private readonly IGenericRepository<Domain.NotificationMessage> _repository;
 
-        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher,IGenericRepository<Infrastructure.Data.NotificationMessage> repository)
+        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher, IGenericRepository<Domain.NotificationMessage> repository)
         {
             _dbContext = dbContext;
             _capPublisher = capPublisher;
@@ -28,7 +28,7 @@ namespace FinalMonth.Api.Controllers
             using (var trans = _dbContext.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
-                var notificationMessage = new Infrastructure.Data.NotificationMessage
+                var notificationMessage = new Domain.NotificationMessage
                 {
                     From = "cap",
                     Message = DateTime.Now.ToString("O"),

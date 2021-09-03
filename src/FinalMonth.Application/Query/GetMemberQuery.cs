@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using FinalMonth.Infrastructure.Data;
+using FinalMonth.Domain;
 using FinalMonth.Infrastructure.Repository;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace FinalMonth.Api.Query
+namespace FinalMonth.Application.Query
 {
     public class GetMemberQuery : IRequest<IList<Member>>
     {

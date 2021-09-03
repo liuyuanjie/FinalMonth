@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FinalMonth.Api.Command;
 using FinalMonth.Api.Notification;
-using FinalMonth.Api.Query;
-using FinalMonth.Infrastructure.Data;
+using FinalMonth.Application.Command;
+using FinalMonth.Application.Query;
+using FinalMonth.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

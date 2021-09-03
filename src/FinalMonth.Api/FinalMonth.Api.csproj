@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinalMonth.Application\FinalMonth.Application.csproj" />
     <ProjectReference Include="..\FinalMonth.Infrastructure\FinalMonth.Infrastructure.Data\FinalMonth.Infrastructure.Data.csproj" />
   </ItemGroup>
 

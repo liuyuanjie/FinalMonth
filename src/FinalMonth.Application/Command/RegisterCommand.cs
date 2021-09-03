@@ -1,4 +1,4 @@
-﻿namespace FinalMonth.Api.Command
+﻿namespace FinalMonth.Application.Command
 {
     public class RegisterCommand
     {

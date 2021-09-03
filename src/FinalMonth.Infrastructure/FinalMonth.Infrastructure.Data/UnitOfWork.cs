@@ -13,7 +13,7 @@ namespace FinalMonth.Infrastructure.Data
             _dbContext = dbContext;
         }
 
-        public async Task<int> CommitAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.SaveChangesAsync(cancellationToken);
         }

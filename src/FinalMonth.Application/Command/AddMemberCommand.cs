@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using FinalMonth.Infrastructure.Data;
+using FinalMonth.Domain;
 using FinalMonth.Infrastructure.Repository;
 using FluentValidation;
 using MediatR;
 
-namespace FinalMonth.Api.Command
+namespace FinalMonth.Application.Command
 {
     public class AddMemberCommand : IRequest<bool>
     {
@@ -34,12 +34,7 @@ namespace FinalMonth.Api.Command
 
         public async Task<bool> Handle(AddMemberCommand request, CancellationToken cancellationToken)
         {
-            _rep.Create(new Member
-            {
-                UserId = request.UserId,
-                Age = request.Age,
-                JobTitle = request.JobTitle
-            });
+            _rep.Create(Member.Create(request.UserId, request.Age, request.JobTitle));
 
             var result = await _rep.UnitOfWOrk.CommitAsync(cancellationToken);
 

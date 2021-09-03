@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using FinalMonth.Api.Command;
+using FinalMonth.Application.Command;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace FinalMonth.Api.NotificationMessage
-{ 
+{
     //[HubName("NotificationMessageHub")]
     public class NotificationMessageHub : Hub<INotificationMessageHub>
     {
@@ -20,11 +20,14 @@ namespace FinalMonth.Api.NotificationMessage
 
         public Task SendMessage(string user, string message)
         {
+            _logger.LogInformation("{type}:{user}:{message}", "send", user, message);
             return Clients.All.ReceiveMessage(user, message);
         }
 
         public Task ReceiveMessage(string user, string message)
         {
+            _logger.LogInformation("{type}:{user}:{message}", "receive", user, message);
+
             return _mediator.Send(new SendNotificationMessageCommand()
             {
                 User = user,

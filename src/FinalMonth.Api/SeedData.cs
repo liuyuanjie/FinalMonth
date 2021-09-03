@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
+using FinalMonth.Domain;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 
-namespace FinalMonth.Infrastructure.Data
+namespace FinalMonth.Api
 {
     public class SeedData
     {
@@ -62,7 +58,7 @@ namespace FinalMonth.Infrastructure.Data
         private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
                                                                       string uid, string role)
         {
-            IdentityResult IR = null;
+            IdentityResult identityResult = null;
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
             if (roleManager == null)
@@ -72,7 +68,7 @@ namespace FinalMonth.Infrastructure.Data
 
             if (!await roleManager.RoleExistsAsync(role))
             {
-                IR = await roleManager.CreateAsync(new IdentityRole(role));
+                identityResult = await roleManager.CreateAsync(new IdentityRole(role));
             }
 
             var userManager = serviceProvider.GetService<UserManager<ShinetechUser>>();
@@ -84,9 +80,9 @@ namespace FinalMonth.Infrastructure.Data
                 throw new Exception("The testUserPw password was probably not strong enough!");
             }
 
-            IR = await userManager.AddToRoleAsync(user, role);
+            identityResult = await userManager.AddToRoleAsync(user, role);
 
-            return IR;
+            return identityResult;
         }
     }
 }

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using FinalMonth.Domain;
 using FinalMonth.Infrastructure.Data.EntityConfigurations;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace FinalMonth.Infrastructure.Data
 {
@@ -23,11 +23,6 @@ namespace FinalMonth.Infrastructure.Data
             builder.ApplyConfiguration(new MemberEntityConfiguration());
             builder.ApplyConfiguration(new NotificationMessageEntityConfiguration());
             base.OnModelCreating(builder);
-        }
-
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public IDbConnection DbConnection => base.Database.GetDbConnection();

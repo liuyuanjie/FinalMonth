@@ -5,6 +5,7 @@ using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
+using FinalMonth.Domain;
 using FinalMonth.Infrastructure.Data;
 using FinalMonth.Infrastructure.Repository;
 using FluentValidation;
