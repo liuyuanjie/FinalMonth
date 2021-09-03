@@ -6,16 +6,16 @@ namespace FinalMonth.Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly FinalMonthDbContext _dbContext;
+        private readonly FinalMonthIDbContext _iDbContext;
 
-        public UnitOfWork(FinalMonthDbContext dbContext)
+        public UnitOfWork(FinalMonthIDbContext iDbContext)
         {
-            _dbContext = dbContext;
+            _iDbContext = iDbContext;
         }
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.SaveChangesAsync(cancellationToken);
+            return await _iDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

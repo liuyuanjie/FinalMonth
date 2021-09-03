@@ -31,5 +31,19 @@ namespace FinalMonth.Api.Controllers
         {
             return await _notificationMessageQuery.GetAllAsync();
         }
+
+        [HttpGet]
+        [Route("ten")]
+        public async Task<IList<Domain.NotificationMessage>> GetTen()
+        {
+            return await _notificationMessageQuery.GetTopTenAsync();
+        }
+
+        [HttpGet]
+        [Route("one")]
+        public async Task<IList<Domain.NotificationMessage>> GetOne()
+        {
+            return await _notificationMessageQuery.GetTopOneAsync();
+        }
     }
 }

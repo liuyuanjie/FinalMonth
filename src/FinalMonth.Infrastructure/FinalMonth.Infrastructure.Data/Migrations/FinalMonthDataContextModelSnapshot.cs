@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalMonth.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(FinalMonthDbContext))]
+    [DbContext(typeof(FinalMonthIDbContext))]
     partial class FinalMonthDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -9,9 +9,9 @@ using FinalMonth.Infrastructure.Data.EntityConfigurations;
 
 namespace FinalMonth.Infrastructure.Data
 {
-    public class FinalMonthDbContext : IdentityDbContext<ShinetechUser>, IFinalMonthDBContext
+    public class FinalMonthIDbContext : IdentityDbContext<ShinetechUser>, IFinalMonthIDbContextProvider
     {
-        public FinalMonthDbContext(DbContextOptions<FinalMonthDbContext> options)
+        public FinalMonthIDbContext(DbContextOptions<FinalMonthIDbContext> options)
             : base(options)
         {
 

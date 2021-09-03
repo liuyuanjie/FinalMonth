@@ -12,17 +12,21 @@ namespace FinalMonth.Infrastructure.Dapper
 {
     public class NotificationMessageQuery : INotificationMessageQuery
     {
-        private readonly IConfiguration _configuration;
+        private readonly IMSSqlConnection _msSqlConnection;
+        private readonly IFinalMonthIDbContextProvider _dbContextProvider;
+        private readonly string _connectionString;
 
-        public NotificationMessageQuery(IConfiguration configuration)
+        public NotificationMessageQuery(IConfiguration configuration, IMSSqlConnection msSqlConnection, IFinalMonthIDbContextProvider dbContextProvider)
         {
-            _configuration = configuration;
+            _msSqlConnection = msSqlConnection;
+            _dbContextProvider = dbContextProvider;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<List<NotificationMessage>> GetAllAsync()
         {
             var sql = "SELECT * FROM [NotificationMessages]";
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<NotificationMessage>(sql);
@@ -30,10 +34,24 @@ namespace FinalMonth.Infrastructure.Dapper
             }
         }
 
+        public async Task<List<NotificationMessage>> GetTopTenAsync()
+        {
+            var sql = "SELECT top 10 * FROM [NotificationMessages]";
+            var result = await _msSqlConnection.OpenConnectionAsync().QueryAsync<NotificationMessage>(sql);
+            return result.ToList();
+        }
+
+        public async Task<List<NotificationMessage>> GetTopOneAsync()
+        {
+            var sql = "SELECT top 1 * FROM [NotificationMessages]";
+            var result = await _dbContextProvider.DbConnection.QueryAsync<NotificationMessage>(sql);
+            return result.ToList();
+        }
+
         public async Task<NotificationMessage> GetByIdAsync(string id)
         {
             var sql = "SELECT * FROM [NotificationMessages] WHERE NotificationId = @Id";
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 var result = await connection.QuerySingleOrDefaultAsync<NotificationMessage>(sql, new { Id = id });

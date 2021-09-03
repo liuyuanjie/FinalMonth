@@ -34,7 +34,7 @@ namespace FinalMonth.Api
 
                 try
                 {
-                    var context = services.GetRequiredService<FinalMonthDbContext>();
+                    var context = services.GetRequiredService<FinalMonthIDbContext>();
                     context.Database.EnsureCreated();
                     context.Database.Migrate();
 

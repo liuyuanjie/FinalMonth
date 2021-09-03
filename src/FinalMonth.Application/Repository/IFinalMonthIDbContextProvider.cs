@@ -2,7 +2,7 @@
 
 namespace FinalMonth.Application.Repository
 {
-    public interface IFinalMonthDBContext
+    public interface IFinalMonthIDbContextProvider
     {
         IDbConnection DbConnection { get;}
     }

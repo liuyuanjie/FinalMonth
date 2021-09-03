@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalMonth.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(FinalMonthDbContext))]
+    [DbContext(typeof(FinalMonthIDbContext))]
     [Migration("20210819071322_init")]
     partial class init
     {

@@ -10,13 +10,13 @@ namespace FinalMonth.Api.Controllers
     [Route("[controller]")]
     public class CapPublishController : Controller
     {
-        private readonly IFinalMonthDBContext _dbContext;
+        private readonly IFinalMonthIDbContextProvider _iDbContextProvider;
         private readonly ICapPublisher _capPublisher;
         private readonly IGenericRepository<Domain.NotificationMessage> _repository;
 
-        public CapPublishController(IFinalMonthDBContext dbContext, ICapPublisher capPublisher, IGenericRepository<Domain.NotificationMessage> repository)
+        public CapPublishController(IFinalMonthIDbContextProvider iDbContextProvider, ICapPublisher capPublisher, IGenericRepository<Domain.NotificationMessage> repository)
         {
-            _dbContext = dbContext;
+            _iDbContextProvider = iDbContextProvider;
             _capPublisher = capPublisher;
             _repository = repository;
         }
@@ -25,7 +25,7 @@ namespace FinalMonth.Api.Controllers
         [Route("publish")]
         public IActionResult EntityFrameworkWithTransaction()
         {
-            using (var trans = _dbContext.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
+            using (var trans = _iDbContextProvider.DbConnection.BeginTransaction(_capPublisher, autoCommit: true))
             {
                 //your business logic code
                 var notificationMessage = new Domain.NotificationMessage

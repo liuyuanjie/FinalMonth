@@ -7,11 +7,11 @@ namespace FinalMonth.Infrastructure.Data
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly FinalMonthDbContext _dbContext;
+        private readonly FinalMonthIDbContext _iDbContext;
 
-        public GenericRepository(FinalMonthDbContext dbContext, IUnitOfWork unitOfWork)
+        public GenericRepository(FinalMonthIDbContext iDbContext, IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _iDbContext = iDbContext;
             UnitOfWOrk = unitOfWork;
         }
 
@@ -19,21 +19,21 @@ namespace FinalMonth.Infrastructure.Data
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            return await _iDbContext.Set<T>().ToListAsync();
         }
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbContext.Set<T>().FindAsync();
+            return await _iDbContext.Set<T>().FindAsync();
         }
 
         public void Update(T entity)
         {
-            _dbContext.Set<T>().Update(entity);
+            _iDbContext.Set<T>().Update(entity);
         }
 
         public void Create(T entity)
         { 
-            _dbContext.Set<T>().Add(entity);
+            _iDbContext.Set<T>().Add(entity);
         }
     }
 }
