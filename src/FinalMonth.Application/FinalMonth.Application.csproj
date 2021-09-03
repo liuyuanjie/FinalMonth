@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinalMonth.Domain\FinalMonth.Domain.csproj" />
-    <ProjectReference Include="..\FinalMonth.Infrastructure.Repository\FinalMonth.Infrastructure.Repository.csproj" />
   </ItemGroup>
 
 </Project>
