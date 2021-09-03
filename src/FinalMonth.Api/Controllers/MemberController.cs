@@ -36,7 +36,7 @@ namespace FinalMonth.Api.Controllers
             return await _mediator.Send(query);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("send")]
         public async Task<IActionResult> SendMember()
         {

@@ -1,8 +1,8 @@
-using FinalMonth.Api.AuthenticationSchemes;
-using FinalMonth.Api.AuthorizationRequirements;
 using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.Common;
 using FinalMonth.Api.CustomMiddlewares;
+using FinalMonth.Api.Identity.AuthenticationSchemes;
+using FinalMonth.Api.Identity.AuthorizationRequirements;
 using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Domain;
@@ -74,6 +74,8 @@ namespace FinalMonth.Api
                 configure.Cookie.Name = "shinetech";
             });
 
+            services.AddHttpContextAccessor();
+
             // add identity cookie authentication
             services.ConfigureApplicationCookie(config =>
             {
@@ -115,6 +117,7 @@ namespace FinalMonth.Api
                     });
 
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddMediatR(typeof(Startup).Assembly);
