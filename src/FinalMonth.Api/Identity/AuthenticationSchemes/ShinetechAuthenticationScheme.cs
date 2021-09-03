@@ -57,7 +57,7 @@ namespace FinalMonth.Api.Identity.AuthenticationSchemes
 
             try
             {
-                return await ValidateTokenAsync(token);
+                return await ValidateToken(token);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace FinalMonth.Api.Identity.AuthenticationSchemes
             }
         }
 
-        private async Task<AuthenticateResult> ValidateTokenAsync(string token)
+        private async Task<AuthenticateResult> ValidateToken(string token)
         {
             var issuer = Options.JwtIssuer;
             var key = Options.JwtKey;

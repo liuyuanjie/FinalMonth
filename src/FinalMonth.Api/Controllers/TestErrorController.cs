@@ -12,7 +12,7 @@ namespace FinalMonth.Api.Controllers
     {
         [TypeFilter(typeof(ServiceExceptionInterceptor))]
         [HttpGet]
-        public async Task<IActionResult> Test()
+        public Task<IActionResult> Test()
         {
             throw new ArgumentException("Test exception filter.");
         }
@@ -20,7 +20,7 @@ namespace FinalMonth.Api.Controllers
         [HttpGet]
         [Route("attribute")]
         [ServiceException]
-        public async Task<IActionResult> TestAttribute()
+        public Task<IActionResult> TestAttribute()
         {
             throw new ArgumentException("Test exception attribute.");
         }
@@ -28,7 +28,7 @@ namespace FinalMonth.Api.Controllers
         [HttpGet]
         [Route("middleware")]
         //[ServiceException]
-        public async Task<IActionResult> TestMiddleware()
+        public Task<IActionResult> TestMiddleware()
         {
             throw new ArgumentException("Test exception attribute.");
         }

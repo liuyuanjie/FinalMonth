@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FinalMonth.Api.Common;
 using FinalMonth.Api.Utils;
 using FinalMonth.Application.Command;
 using FinalMonth.Domain;

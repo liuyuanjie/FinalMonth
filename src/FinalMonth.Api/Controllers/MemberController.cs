@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FinalMonth.Api.Notification;
 using FinalMonth.Application.Command;
+using FinalMonth.Application.Notification;
 using FinalMonth.Application.Query;
 using FinalMonth.Domain;
 using MediatR;
