@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FinalMonth.Application.Repository;
 using FinalMonth.Domain;
-using FinalMonth.Infrastructure.Repository;
 using MediatR;
 
 namespace FinalMonth.Application.Query

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinalMonth.Infrastructure.Repository;
+using FinalMonth.Application.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalMonth.Infrastructure.Data

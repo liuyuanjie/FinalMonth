@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using FinalMonth.Infrastructure.Repository;
+using FinalMonth.Application.Repository;
 
 namespace FinalMonth.Infrastructure.Data
 {

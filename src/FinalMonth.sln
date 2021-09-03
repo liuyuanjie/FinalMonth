@@ -35,11 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalMonth.gRPC.Server", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalMonth.Infrastructure.Dapper", "FinalMonth.Infrastructure\FinalMonth.Infrastructure.Dapper\FinalMonth.Infrastructure.Dapper.csproj", "{A43DDF8D-6101-4AF4-BBF8-92EF473F23E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalMonth.Infrastructure.Repository", "FinalMonth.Infrastructure.Repository\FinalMonth.Infrastructure.Repository.csproj", "{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalMonth.Domain", "FinalMonth.Domain\FinalMonth.Domain.csproj", "{3627EA93-AE4E-41B3-8E5C-E3F12297162A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalMonth.Domain", "FinalMonth.Domain\FinalMonth.Domain.csproj", "{3627EA93-AE4E-41B3-8E5C-E3F12297162A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalMonth.Application", "FinalMonth.Application\FinalMonth.Application.csproj", "{667967C1-5774-41EA-8E31-6DC6A5B9E0F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalMonth.Application", "FinalMonth.Application\FinalMonth.Application.csproj", "{667967C1-5774-41EA-8E31-6DC6A5B9E0F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +89,6 @@ Global
 		{A43DDF8D-6101-4AF4-BBF8-92EF473F23E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A43DDF8D-6101-4AF4-BBF8-92EF473F23E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A43DDF8D-6101-4AF4-BBF8-92EF473F23E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3627EA93-AE4E-41B3-8E5C-E3F12297162A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3627EA93-AE4E-41B3-8E5C-E3F12297162A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3627EA93-AE4E-41B3-8E5C-E3F12297162A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -118,7 +112,6 @@ Global
 		{DD0D7328-A15C-43F5-9ECB-7FB3E214F13E} = {794CFE2B-87BA-4BFE-8C32-27024AD919F7}
 		{0027BC4F-3F2E-4A18-AB29-2798385A362C} = {794CFE2B-87BA-4BFE-8C32-27024AD919F7}
 		{A43DDF8D-6101-4AF4-BBF8-92EF473F23E1} = {5C91276E-6512-4692-8F88-86381BBB6ED9}
-		{945993C6-D9E4-4AA4-8AAC-13059BF6E6C6} = {5C91276E-6512-4692-8F88-86381BBB6ED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {875BE2E5-54D2-45E9-93E0-85760F8FE021}

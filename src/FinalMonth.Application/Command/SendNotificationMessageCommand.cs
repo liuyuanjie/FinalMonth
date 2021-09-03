@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using FinalMonth.Application.Repository;
 using FinalMonth.Domain;
-using FinalMonth.Infrastructure.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

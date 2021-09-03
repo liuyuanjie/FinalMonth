@@ -1,7 +1,7 @@
 ﻿using System;
 using DotNetCore.CAP;
+using FinalMonth.Application.Repository;
 using FinalMonth.Infrastructure.Data;
-using FinalMonth.Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalMonth.Api.Controllers
