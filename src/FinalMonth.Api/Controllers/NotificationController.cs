@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FinalMonth.Api.NotificationMessage;
+using FinalMonth.Application.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalMonth.Api.Controllers
@@ -9,18 +11,25 @@ namespace FinalMonth.Api.Controllers
     public class NotificationController
     {
         private readonly INotificationMessageHandler _notificationMessageHandler;
+        private readonly INotificationMessageQuery _notificationMessageQuery;
 
-        public NotificationController(INotificationMessageHandler notificationMessageHandler)
+        public NotificationController(INotificationMessageHandler notificationMessageHandler, INotificationMessageQuery notificationMessageQuery)
         {
             _notificationMessageHandler = notificationMessageHandler;
+            _notificationMessageQuery = notificationMessageQuery;
         }
 
         [HttpPost]
         [Route("")]
-        public async Task Send(string user, [FromBody] string message)
-        {
+        public async Task Send(string user, [FromBody] string message) {
             await _notificationMessageHandler.SendMessage(user, message);
         }
 
+        [HttpGet]
+        [Route("")]
+        public async Task<IList<Domain.NotificationMessage>> Get()
+        {
+            return await _notificationMessageQuery.GetAllAsync();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using FinalMonth.Application.Repository;
 using FinalMonth.Domain;
 using FluentValidation;
@@ -26,15 +27,18 @@ namespace FinalMonth.Application.Command
     public class AddMemberCommandHandler : IRequestHandler<AddMemberCommand, bool>
     {
         private readonly IGenericRepository<Member> _rep;
+        private readonly IMapper _mapper;
 
-        public AddMemberCommandHandler(IGenericRepository<Member> rep)
+        public AddMemberCommandHandler(IGenericRepository<Member> rep, IMapper mapper)
         {
             _rep = rep;
+            _mapper = mapper;
         }
 
         public async Task<bool> Handle(AddMemberCommand request, CancellationToken cancellationToken)
         {
-            _rep.Create(Member.Create(request.UserId, request.Age, request.JobTitle));
+            var member = _mapper.Map<Member>(request);
+            _rep.Create(member);
 
             var result = await _rep.UnitOfWOrk.CommitAsync(cancellationToken);
 

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace FinalMonth.Api.Services
+namespace FinalMonth.Application.Interfaces
 {
     public interface IIdentityService
     {

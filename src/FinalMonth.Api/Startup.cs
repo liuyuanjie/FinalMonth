@@ -1,3 +1,4 @@
+using System.Reflection;
 using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.Identity.AuthenticationSchemes;
@@ -7,6 +8,7 @@ using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Api.Utils;
 using FinalMonth.Application.Repository;
 using FinalMonth.Domain;
+using FinalMonth.Infrastructure.Dapper;
 using FinalMonth.Infrastructure.Data;
 using FluentValidation;
 using MediatR;
@@ -142,8 +144,11 @@ namespace FinalMonth.Api
                 options.ConsumerThreadCount = 10;
             });
 
-            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<INotificationMessageQuery, NotificationMessageQuery>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
 
 

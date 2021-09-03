@@ -11,4 +11,4 @@ namespace FinalMonth.Application.Repository
         void Update(T entity);
         void Create(T entity);
     }
-} 
+}
