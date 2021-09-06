@@ -10,6 +10,6 @@ namespace FinalMonth.Application.Repository
 {
     public interface IMSSqlConnection
     {
-        IDbConnection OpenConnectionAsync();
+        IDbConnection OpenConnection();
     }
 }

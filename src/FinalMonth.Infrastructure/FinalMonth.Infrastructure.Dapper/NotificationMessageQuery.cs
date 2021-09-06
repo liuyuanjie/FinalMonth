@@ -37,8 +37,11 @@ namespace FinalMonth.Infrastructure.Dapper
         public async Task<List<NotificationMessage>> GetTopTenAsync()
         {
             var sql = "SELECT top 10 * FROM [NotificationMessages]";
-            var result = await _msSqlConnection.OpenConnectionAsync().QueryAsync<NotificationMessage>(sql);
-            return result.ToList();
+            using (var conn = _msSqlConnection.OpenConnection())
+            {
+                var result = await conn.QueryAsync<NotificationMessage>(sql);
+                return result.ToList();
+            }
         }
 
         public async Task<List<NotificationMessage>> GetTopOneAsync()

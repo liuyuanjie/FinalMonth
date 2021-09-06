@@ -15,7 +15,7 @@ namespace FinalMonth.Infrastructure.Dapper
             _configuration = configuration;
         }
 
-        public IDbConnection OpenConnectionAsync()
+        public IDbConnection OpenConnection()
         {
             var sqlConnection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             sqlConnection.Open();
