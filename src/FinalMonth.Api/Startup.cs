@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Claims;
 using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.CustomMiddlewares;
 using FinalMonth.Api.Identity.AuthenticationSchemes;
@@ -6,6 +8,9 @@ using FinalMonth.Api.Identity.AuthorizationRequirements;
 using FinalMonth.Api.NotificationMessage;
 using FinalMonth.Api.ServiceExtensions;
 using FinalMonth.Api.Utils;
+using FinalMonth.Application.Command;
+using FinalMonth.Application.Extensions;
+using FinalMonth.Application.Interfaces;
 using FinalMonth.Application.Repository;
 using FinalMonth.Domain;
 using FinalMonth.Infrastructure.Dapper;
@@ -120,12 +125,6 @@ namespace FinalMonth.Api
 
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddMediatR(typeof(Startup).Assembly);
-
-            services.AddScoped<IFinalMonthIDbContextProvider, FinalMonthIDbContext>();
-
             services.AddSignalR().AddStackExchangeRedis(Configuration.GetValue<string>("Redis:ConnectionString"), options =>
             {
                 options.Configuration.ChannelPrefix = "FinalMonthApp";
@@ -144,13 +143,15 @@ namespace FinalMonth.Api
                 options.ConsumerThreadCount = 10;
             });
 
+            services.AddScoped<IMSSqlConnection, MSSqlConnection>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddScoped<IFinalMonthIDbContextProvider, FinalMonthIDbContext>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<INotificationMessageQuery, NotificationMessageQuery>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            services.AddScoped<IMSSqlConnection, MSSqlConnection>();
+            services.AddApplication();
         }
 
 

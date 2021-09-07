@@ -2,12 +2,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
 
-namespace CapApi.MiscConsumer.Api
+namespace CapApi.MicroConsumer.Api
 {
     public class Program
     {
@@ -20,7 +17,24 @@ namespace CapApi.MiscConsumer.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                        .ConfigureAppConfiguration(config =>
+                        {
+                            config.AddJsonFile($"serilogSettings.json", optional: true);
+                        })
+                        .ConfigureLogging(option =>
+                        {
+                            option.ClearProviders();
+                            option.AddConsole();
+                        })
+                        .UseSerilog((hostingContext, loggerConfiguration) =>
+                        {
+                            loggerConfiguration
+                                .ReadFrom.Configuration(hostingContext.Configuration)
+                                .Enrich.FromLogContext()
+                                .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
+                                .Enrich.WithProperty("Environment", hostingContext.HostingEnvironment);
+                        });
                 });
     }
 }

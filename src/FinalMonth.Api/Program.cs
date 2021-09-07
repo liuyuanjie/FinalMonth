@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinalMonth.Application.Interfaces;
 using FinalMonth.Infrastructure.Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Internal;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,7 @@ namespace FinalMonth.Api
 
                 try
                 {
+                    services.GetRequiredService<ITestingService>();
                     var context = services.GetRequiredService<FinalMonthIDbContext>();
                     context.Database.EnsureCreated();
                     context.Database.Migrate();

@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FinalMonth.Api.Filters;
 using FinalMonth.Application.Command;
 using FinalMonth.Application.Notification;
 using FinalMonth.Application.Query;
 using FinalMonth.Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalMonth.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class MemberController : Controller
@@ -21,6 +24,8 @@ namespace FinalMonth.Api.Controllers
             _mediator = mediator;
         }
 
+        [CustomTestAction]
+        [TypeFilter(typeof(CustomTestActionFilter))]
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> AddMember(AddMemberCommand command)
@@ -33,7 +38,7 @@ namespace FinalMonth.Api.Controllers
         [HttpGet]
         public async Task<IList<Member>> GetMembers(GetMemberQuery query)
         {
-            return await _mediator.Send(query);
+            return await _mediator.Send(query)
         }
 
         [HttpPost]
