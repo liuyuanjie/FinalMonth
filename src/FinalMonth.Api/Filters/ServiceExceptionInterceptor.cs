@@ -22,7 +22,7 @@ namespace FinalMonth.Api.Filters
         }
         public Task OnExceptionAsync(ExceptionContext context)
         {
-            _logger.LogError(context.Exception, "Service error:{0},{1}", context.HttpContext.Request.Path, context.HttpContext.User.FindFirstValue(ClaimTypes.Sid));
+            _logger.LogError(context.Exception, "Service error:{0},{1},{2}", context.ModelState,context.HttpContext.Request.Path, context.HttpContext.User.FindFirstValue(ClaimTypes.Sid));
             //Business exception-More generics for external world
             var error = new
             {

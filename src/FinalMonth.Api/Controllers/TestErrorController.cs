@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using FinalMonth.Api.CustomAttributes;
 using FinalMonth.Api.Filters;
@@ -12,7 +13,7 @@ namespace FinalMonth.Api.Controllers
     {
         [TypeFilter(typeof(ServiceExceptionInterceptor))]
         [HttpGet]
-        public Task<IActionResult> Test()
+        public Task<IActionResult> Test(int age)
         {
             throw new ArgumentException("Test exception filter.");
         }
@@ -32,5 +33,20 @@ namespace FinalMonth.Api.Controllers
         {
             throw new ArgumentException("Test exception attribute.");
         }
+
+        [TypeFilter(typeof(ServiceExceptionInterceptor))]
+        [HttpPost]
+        [Route("validate")]
+        public Task<IActionResult> TestValidate(TestValidate validate)
+        {
+            throw new ArgumentException("Test exception filter.");
+        }
+    }
+
+    public class TestValidate
+    {
+        [Required]
+        [Range(50,80)]
+        public int Age { get; set; }
     }
 }

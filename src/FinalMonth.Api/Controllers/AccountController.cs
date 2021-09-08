@@ -132,7 +132,6 @@ namespace FinalMonth.Api.Controllers
                     return Ok();
                 }
             }
-
             return BadRequest();
         }
 

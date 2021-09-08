@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Security.Claims;
 using FinalMonth.Api.Behaviors;
 using FinalMonth.Api.CustomMiddlewares;
+using FinalMonth.Api.Filters;
 using FinalMonth.Api.Identity.AuthenticationSchemes;
 using FinalMonth.Api.Identity.AuthorizationRequirements;
 using FinalMonth.Api.NotificationMessage;
@@ -28,6 +29,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Internal;
 
 namespace FinalMonth.Api
 {
@@ -62,7 +64,7 @@ namespace FinalMonth.Api
 
             services.AddControllers(configure =>
             {
-                //configure.Filters.Add(typeof(ServiceExceptionInterceptor));
+                configure.Filters.Add(typeof(CustomTestActionFilter));
             });
             services.AddSwaggerGen(c =>
             {
@@ -152,12 +154,27 @@ namespace FinalMonth.Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddApplication();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetValue<string>("Redis:ConnectionString");
+                options.InstanceName = nameof(FinalMonth);
+            });
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = Configuration.GetValue<string>("Redis:ConnectionString");
+            //});
+
+            services.AddMemoryCache(options =>
+            {
+            });
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCustomExceptionMiddleware();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -175,8 +192,6 @@ namespace FinalMonth.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCustomExceptionMiddleware();
 
             // who are you
             app.UseAuthentication();

@@ -38,7 +38,7 @@ namespace FinalMonth.Api.Controllers
         [HttpGet]
         public async Task<IList<Member>> GetMembers(GetMemberQuery query)
         {
-            return await _mediator.Send(query)
+            return await _mediator.Send(query);
         }
 
         [HttpPost]

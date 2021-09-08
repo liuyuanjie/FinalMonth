@@ -34,6 +34,10 @@ namespace FinalMonth.Application.Command
                 var valid = await _userManager.CheckPasswordAsync(user, request.Password);
                 if (valid)
                 {
+                    var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, "MyApp", "RefreshToken");
+                    await _userManager.SetAuthenticationTokenAsync(user, "MyApp", "RefreshToken", newRefreshToken);
+                    await _userManager.UpdateSecurityStampAsync(user);
+
                     var roleResult = await _userManager.GetRolesAsync(user);
                     var claims = new List<Claim>()
                     {
